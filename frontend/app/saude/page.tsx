@@ -4,7 +4,15 @@ import { useRouter } from 'next/navigation'
 import api from '@/lib/api'
 import { logout } from '@/lib/auth'
 
-type Animal = { id: number; nome: string; status: string; foto_url?: string }
+type Animal = { id: number
+  nome: string
+  sexo: string
+  porte: string
+  status: string  // <-- adicionar essa linha
+  raca?: string
+  foto?: string
+  foto_url?: string }
+
 type Registro = {
     id: number; animal: number; animal_nome: string; tipo: string; tipo_display: string
     nome_produto: string; data_aplicacao: string; proxima_dose?: string
