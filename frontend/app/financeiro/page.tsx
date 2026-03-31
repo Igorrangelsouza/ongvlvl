@@ -299,7 +299,7 @@ export default function FinanceiroPage() {
                                     <XAxis dataKey="mes" tick={{ fontSize: 12, fill: '#64748B', fontFamily: 'Manrope' }} />
                                     <YAxis tick={{ fontSize: 12, fill: '#64748B', fontFamily: 'Manrope' }} tickFormatter={v => `R$${v}`} />
                                     <Tooltip
-                                        formatter={(value: number) => [`R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`, '']}
+                                        formatter={(value) => [`R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`, '']}
                                         contentStyle={{ fontFamily: 'Manrope', fontSize: '12px', borderRadius: '8px', border: '1px solid #E2E8F0' }}
                                     />
                                     <Legend wrapperStyle={{ fontFamily: 'Manrope', fontSize: '12px' }} />
