@@ -12,8 +12,9 @@ interface ConfigComRetry extends AxiosRequestConfig {
   _retryCount?: number
 }
 
-const api = axios.create({ baseURL: 'http://localhost:8000/api' })
-
+const api = axios.create({ 
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api' 
+})
 // ─── INTERCEPTOR DE REQUEST ───────────────────────────────────────────────────
 api.interceptors.request.use(
   (config) => {
