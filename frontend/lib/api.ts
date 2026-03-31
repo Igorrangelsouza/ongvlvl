@@ -75,11 +75,15 @@ api.interceptors.response.use(
         } catch {
           Cookies.remove('access_token')
           Cookies.remove('refresh_token')
-          window.location.href = '/login'
+          if (typeof window !== 'undefined') {
+            window.location.href = '/login'
+          }
           return Promise.reject(error)
         }
       } else {
-        window.location.href = '/login'
+        if (typeof window !== 'undefined') {
+            window.location.href = '/login'
+          }
         return Promise.reject(error)
       }
     }
