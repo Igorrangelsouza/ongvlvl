@@ -1,16 +1,17 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import api from '@/lib/api'
 import { useRouter } from 'next/navigation'
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export default function EditarAnimalPage({ params }: Props) {
+  const { id: rawId } = use(params)   // <-- desembrulha a Promise
+  const id = Number(rawId)
   const router = useRouter()
-  const id = Number(params.id)
   const [form, setForm] = useState<any>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -35,9 +36,6 @@ export default function EditarAnimalPage({ params }: Props) {
     router.push('/animais')
   }
 
-  // ... resto do JSX igual ao que você já tem
-}
-
   const field = (label: string, key: string, type = 'text') => (
     <div>
       <label className="block text-sm font-medium mb-1">{label}</label>
@@ -50,7 +48,7 @@ export default function EditarAnimalPage({ params }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 space-y-4">
-      <h1 className="text-2xl font-bold">{id ? 'Editar' : 'Novo'} Animal</h1>
+      <h1 className="text-2xl font-bold">Editar Animal</h1>
       {field('Nome', 'nome')}
       {field('Nascimento', 'nascimento', 'date')}
       <div>
