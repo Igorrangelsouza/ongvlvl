@@ -1,9 +1,8 @@
 'use client'
-import { useState } from 'react'
-import api from '@/lib/api'
 import { useRouter } from 'next/navigation'
 
-type Props = { initial?: any; id?: number }
+export default function NovoAnimalPage() {
+  const router = useRouter()
 
 export default function AnimalForm({ initial, id }: Props) {
   const router = useRouter()
