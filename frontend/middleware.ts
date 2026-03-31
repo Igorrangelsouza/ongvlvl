@@ -4,29 +4,22 @@ import type { NextRequest } from 'next/server'
 const PUBLIC_ROUTES = ['/login', '/cadastro']
 
 export function middleware(request: NextRequest) {
-  try {
-    const token = request.cookies.get('access_token')?.value
-    const { pathname } = request.nextUrl
-    const isPublic = PUBLIC_ROUTES.includes(pathname)
+  const { pathname } = request.nextUrl
 
-    if (!token && !isPublic) {
-      return NextResponse.redirect(new URL('/login', request.url))
-    }
+  const token = request.cookies.get('access_token')?.value
+  const isPublic = PUBLIC_ROUTES.some(route => pathname === route)
 
-    if (token && isPublic) {
-      return NextResponse.redirect(new URL('/animais', request.url))
-    }
-
-    return NextResponse.next()
-  } catch (error) {
-    // Em caso de erro no middleware, redireciona para login
-    console.error('Middleware error:', error)
+  if (!token && !isPublic) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
+
+  if (token && isPublic) {
+    return NextResponse.redirect(new URL('/animais', request.url))
+  }
+
+  return NextResponse.next()
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.gif|.*\\.svg|.*\\.ico|.*\\.webp).*)',
-  ],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp)).*)',],
 }
