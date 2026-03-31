@@ -1,17 +1,24 @@
 'use client'
-import { useState } from 'react'
+
+import { useState, useEffect } from 'react'
 import api from '@/lib/api'
 import { useRouter } from 'next/navigation'
 
-type Props = { initial?: any; id?: number }
+type Props = {
+  params: { id: string }
+}
 
-export default function AnimalForm({ initial, id }: Props) {
+export default function EditarAnimalPage({ params }: Props) {
   const router = useRouter()
-  const [form, setForm] = useState(initial ?? {
-    nome: '', sexo: 'M', porte: 'M', nascimento: '',
-    castrado: false, status: 'disponivel', observacoes: ''
-  })
+  const id = Number(params.id)
+  const [form, setForm] = useState<any>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
+
+  useEffect(() => {
+    api.get(`/animais/${id}/`).then(res => setForm(res.data))
+  }, [id])
+
+  if (!form) return <p>Carregando...</p>
 
   function validate() {
     const e: Record<string, string> = {}
@@ -24,13 +31,12 @@ export default function AnimalForm({ initial, id }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!validate()) return
-    if (id) {
-      await api.put(`/animais/${id}/`, form)
-    } else {
-      await api.post('/animais/', form)
-    }
+    await api.put(`/animais/${id}/`, form)
     router.push('/animais')
   }
+
+  // ... resto do JSX igual ao que você já tem
+}
 
   const field = (label: string, key: string, type = 'text') => (
     <div>
