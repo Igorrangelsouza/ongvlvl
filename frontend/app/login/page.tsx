@@ -129,13 +129,6 @@ export default function LoginPage() {
           </div>
           {errors.password && <p style={{ color: '#ef4444', fontSize: '0.75rem', marginBottom: '4px' }}>{errors.password}</p>}
 
-          {/* Esqueceu senha */}
-          <div style={{ textAlign: 'left', marginBottom: '14px' }}>
-            <a href="#" style={{ color: '#f59e0b', fontSize: '0.82rem', textDecoration: 'none', fontWeight: 500 }}>
-              Esqueceu a senha?
-            </a>
-          </div>
-
           {/* Lembrar */}
           <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '28px', cursor: 'pointer' }}>
             <input
