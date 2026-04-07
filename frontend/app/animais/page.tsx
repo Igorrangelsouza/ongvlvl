@@ -154,7 +154,7 @@ export default function AnimaisPage() {
               {[
                 { icon: '🐾', label: 'Cadastro de Animais', active: true, href: '/animais' },
                 { icon: '💊', label: 'Saúde dos animais', active: false, href: '/saude' },
-                { icon: '📄', label: 'Exportação de dados', active: false, href: '#' },
+                { icon: '📄', label: 'Exportação de dados', active: false, href: '/exportacao' },
               ].map(item => (
                 <div key={item.label} onClick={() => router.push(item.href)}
                   style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', borderRadius: '8px', cursor: 'pointer', backgroundColor: item.active ? 'rgba(64,191,193,0.1)' : 'transparent', color: item.active ? '#40BFC1' : '#334155', fontWeight: item.active ? 600 : 500, fontSize: '14px', borderRight: item.active ? '4px solid #40BFC1' : '4px solid transparent' }}>
