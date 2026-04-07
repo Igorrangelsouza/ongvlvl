@@ -119,4 +119,8 @@ api.interceptors.response.use(
   }
 )
 
+const api = axios.create({ 
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://ongvlvl-production.up.railway.app/api'
+})
+
 export default api
