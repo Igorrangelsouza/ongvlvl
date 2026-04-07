@@ -1,10 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import Cookies from 'js-cookie'
 
-// Erros que NÃO devem ter retry (são erros do usuário, não do servidor)
 const ERROS_SEM_RETRY = [400, 401, 403, 404, 422]
-
-// Quantidade máxima de tentativas para erros de servidor
 const MAX_RETRY = 2
 
 interface ConfigComRetry extends AxiosRequestConfig {
@@ -13,8 +10,9 @@ interface ConfigComRetry extends AxiosRequestConfig {
 }
 
 const api = axios.create({ 
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://ongvlvl-production.up.railway.app' 
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://ongvlvl-production.up.railway.app/api'
 })
+
 // ─── INTERCEPTOR DE REQUEST ───────────────────────────────────────────────────
 api.interceptors.request.use(
   (config) => {
@@ -23,8 +21,6 @@ api.interceptors.request.use(
 
     if (process.env.NODE_ENV === 'development') {
       const method = config.method?.toUpperCase()
-
-      // Verifica se POST tem body
       if (method === 'POST') {
         if (!config.data) {
           console.warn(`[API] POST ${config.url} — sem body`)
@@ -32,8 +28,6 @@ api.interceptors.request.use(
           console.log(`[API] POST ${config.url}`, config.data instanceof FormData ? '[FormData]' : config.data)
         }
       }
-
-      // Verifica se GET tem params suspeitos
       if (method === 'GET') {
         console.log(`[API] GET ${config.url}`, config.params || '')
       }
@@ -59,14 +53,13 @@ api.interceptors.response.use(
     const config = error.config as ConfigComRetry
     const status = error.response?.status
 
-    // ── 401: tenta renovar o token UMA vez ──
     if (status === 401 && !config._retry) {
       const refresh = Cookies.get('refresh_token')
       if (refresh) {
         try {
           config._retry = true
           const { data } = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL || 'ongvlvl-production.up.railway.app'}/api/token/refresh/`,
+            `${process.env.NEXT_PUBLIC_API_URL || 'https://ongvlvl-production.up.railway.app'}/api/token/refresh/`,
             { refresh }
           )
           Cookies.set('access_token', data.access, { secure: true, sameSite: 'strict' })
@@ -75,20 +68,15 @@ api.interceptors.response.use(
         } catch {
           Cookies.remove('access_token')
           Cookies.remove('refresh_token')
-          if (typeof window !== 'undefined') {
-            window.location.href = '/login'
-          }
+          if (typeof window !== 'undefined') window.location.href = '/login'
           return Promise.reject(error)
         }
       } else {
-        if (typeof window !== 'undefined') {
-            window.location.href = '/login'
-          }
+        if (typeof window !== 'undefined') window.location.href = '/login'
         return Promise.reject(error)
       }
     }
 
-    // ── Erros do usuário: não faz retry ──
     if (status && ERROS_SEM_RETRY.includes(status)) {
       if (process.env.NODE_ENV === 'development') {
         console.warn(`[API] Erro ${status} em ${config.method?.toUpperCase()} ${config.url} — sem retry`)
@@ -96,31 +84,21 @@ api.interceptors.response.use(
       return Promise.reject(error)
     }
 
-    // ── Erros de servidor (5xx) ou sem resposta (rede): faz retry ──
     config._retryCount = config._retryCount ?? 0
 
     if (config._retryCount < MAX_RETRY) {
       config._retryCount += 1
-      const espera = config._retryCount * 1000 // 1s, 2s
-
+      const espera = config._retryCount * 1000
       if (process.env.NODE_ENV === 'development') {
-        console.warn(
-          `[API] Tentativa ${config._retryCount}/${MAX_RETRY} para ${config.method?.toUpperCase()} ${config.url} em ${espera}ms`
-        )
+        console.warn(`[API] Tentativa ${config._retryCount}/${MAX_RETRY} para ${config.method?.toUpperCase()} ${config.url} em ${espera}ms`)
       }
-
       await new Promise((resolve) => setTimeout(resolve, espera))
       return api(config)
     }
 
-    // Esgotou as tentativas
     console.error(`[API] Falha após ${MAX_RETRY} tentativas em ${config.url}`)
     return Promise.reject(error)
   }
 )
-
-const api = axios.create({ 
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://ongvlvl-production.up.railway.app/api'
-})
 
 export default api
