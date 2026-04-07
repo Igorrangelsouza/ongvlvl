@@ -13,7 +13,7 @@ interface ConfigComRetry extends AxiosRequestConfig {
 }
 
 const api = axios.create({ 
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api' 
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://ongvlvlvercel10-production.up.railway.app' 
 })
 // ─── INTERCEPTOR DE REQUEST ───────────────────────────────────────────────────
 api.interceptors.request.use(
