@@ -129,17 +129,6 @@ export default function LoginPage() {
           </div>
           {errors.password && <p style={{ color: '#ef4444', fontSize: '0.75rem', marginBottom: '4px' }}>{errors.password}</p>}
 
-          {/* Lembrar */}
-          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '28px', cursor: 'pointer' }}>
-            <input
-              type="checkbox"
-              checked={form.remember}
-              onChange={e => setForm({ ...form, remember: e.target.checked })}
-              style={{ width: '16px', height: '16px', accentColor: '#3dbdb0' }}
-            />
-            <span style={{ fontSize: '0.85rem', color: '#4a5568' }}>Lembrar de mim</span>
-          </label>
-
           {/* Botão */}
           <button
             type="submit"
@@ -155,37 +144,9 @@ export default function LoginPage() {
             {loading ? 'Entrando...' : 'Entrar no Portal'}
           </button>
 
-          {/* Divider */}
-          <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-            <span style={{ fontSize: '0.7rem', color: '#b0bec5', letterSpacing: '0.1em', fontWeight: 600 }}>OU ACESSE COM</span>
-          </div>
-
-          {/* Social */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            {[
-              { icon: '🇬', label: 'Google' },
-              { icon: '🍎', label: 'Apple' },
-            ].map(s => (
-              <button key={s.label} type="button" style={{
-                padding: '11px', border: '1.5px solid #e8edf2', borderRadius: '10px',
-                background: '#fff', cursor: 'pointer', display: 'flex',
-                alignItems: 'center', justifyContent: 'center', gap: '8px',
-                fontSize: '0.85rem', fontWeight: 600, color: '#1a2535',
-              }}>
-                <span>{s.icon}</span> {s.label}
-              </button>
-            ))}
-          </div>
         </form>
       </div>
 
-      {/* Footer */}
-      <p style={{ marginTop: '24px', fontSize: '0.85rem', color: '#4a5568' }}>
-        Ainda não faz parte?{' '}
-        <a href="/cadastro" style={{ color: '#f59e0b', fontWeight: 600, textDecoration: 'none' }}>
-          Crie sua conta aqui
-        </a>
-      </p>
       <p style={{ marginTop: '24px', fontSize: '0.7rem', color: '#b0bec5', letterSpacing: '0.1em' }}>
         INSTITUCIONAL • ADOÇÃO RESPONSÁVEL • 2026
       </p>
