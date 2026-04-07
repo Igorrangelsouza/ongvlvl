@@ -18,3 +18,15 @@ export function middleware(request: NextRequest) {
 
   return NextResponse.next()
 }
+
+export const config = {
+  matcher: [
+    /*
+     * Aplica em tudo EXCETO:
+     * - api
+     * - _next
+     * - arquivos estáticos
+     */
+    '/((?!api|_next|favicon.ico).*)',
+  ],
+}
