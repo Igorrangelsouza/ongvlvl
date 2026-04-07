@@ -129,8 +129,12 @@ SPECTACULAR_SETTINGS = {
 
 CORS_ALLOWED_ORIGINS = env.list(
     "CORS_ALLOWED_ORIGINS",
-    default=["http://localhost:3000"]
+    default=["ongvlvl-production.up.railway.app"]
 )
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://ongvlvl-production.up.railway.app",
+]
 
 AUTHENTICATION_BACKENDS = [
     'usuarios.backends.AprovacaoBackend',
