@@ -198,7 +198,7 @@ export default function FinanceiroPage() {
                         {[
                             { icon: '🐾', label: 'Cadastro de Animais', href: '/animais', active: false },
                             { icon: '💊', label: 'Saúde dos animais', href: '/saude', active: false },
-                            { icon: '📄', label: 'Exportação de dados', href: '#', active: false },
+                            { icon: '📄', label: 'Exportação de dados', href: '/exportacao', active: false },
                         ].map(item => (
                             <div key={item.label} onClick={() => router.push(item.href)}
                                 style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', borderRadius: '8px', cursor: 'pointer', backgroundColor: item.active ? 'rgba(64,191,193,0.1)' : 'transparent', color: item.active ? '#40BFC1' : '#334155', fontWeight: item.active ? 600 : 500, fontSize: '14px', borderRight: item.active ? '4px solid #40BFC1' : '4px solid transparent' }}>
