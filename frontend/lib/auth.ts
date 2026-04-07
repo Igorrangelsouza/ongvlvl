@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 
 export async function login(username: string, password: string) {
   try {
-    const { data } = await api.post('/token/', { username, password })
+    const { data } = await api.post('/api/token/', { username, password })
     Cookies.set('access_token', data.access, { sameSite: 'strict' })
     Cookies.set('refresh_token', data.refresh, { sameSite: 'strict' })
   } catch (error: any) {
