@@ -66,7 +66,7 @@ api.interceptors.response.use(
         try {
           config._retry = true
           const { data } = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/token/refresh/`,
+            `${process.env.NEXT_PUBLIC_API_URL || 'https://ongvlvlvercel10-production.up.railway.app`,
             { refresh }
           )
           Cookies.set('access_token', data.access, { secure: true, sameSite: 'strict' })
